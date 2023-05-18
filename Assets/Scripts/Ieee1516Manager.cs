@@ -11,7 +11,7 @@ namespace Ieee1516
 
         private static Ieee1516Manager _instance;
 
-        private void Start()
+        private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             Singleton();
@@ -36,13 +36,6 @@ namespace Ieee1516
             }
         }
 
-        private void Connect()
-        {
-            var s = new StringBuilder(100);
-            OpenRti.Connect(s, s.Length);
-            Debug.Log("IEEE1516: " + s);
-        }
-
         private void RegisterCallbacks()
         {
             OpenRti.RegisterDebugCallback(DebugCallbackLogger);
@@ -64,6 +57,13 @@ namespace Ieee1516
             OpenRti.RegisterSynchronizationPointRegistrationFailedCallback(null);
             OpenRti.RegisterAnnounceSynchronizationPointCallback(null);
             OpenRti.RegisterFederationSynchronizedCallback(null);
+        }
+
+        private void Connect()
+        {
+            var s = new StringBuilder(100);
+            OpenRti.Connect(s, s.Capacity);
+            Debug.Log("IEEE1516: " + s);
         }
 
         private void DebugCallbackLogger(IntPtr str, int color, int size)
